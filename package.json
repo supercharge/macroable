@@ -1,0 +1,56 @@
+{
+  "name": "@supercharge/macroable",
+  "description": "An elegant way to extend the prototype of ES6 classes",
+  "version": "0.0.0",
+  "author": "Marcus Pöhls <marcus@superchargejs.com>",
+  "bugs": {
+    "url": "https://github.com/supercharge/macroable/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@japa/run-failed-tests": "~1.0.7",
+    "@japa/runner": "~2.0.8",
+    "@japa/spec-reporter": "~1.1.12",
+    "@supercharge/eslint-config-typescript": "~2.1.0",
+    "@supercharge/tsconfig": "~3.1.0",
+    "c8": "~7.11.3",
+    "eslint": "~8.16.0",
+    "expect": "~28.1.0",
+    "typescript": "~4.7.2"
+  },
+  "files": [
+    "dist/index.js"
+  ],
+  "homepage": "https://github.com/supercharge/macroable",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "es6",
+    "classes",
+    "prototype",
+    "extend",
+    "extend-prototype",
+    "nodejs",
+    "supercharge",
+    "superchargejs"
+  ],
+  "license": "MIT",
+  "main": "dist",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supercharge/macroable.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src",
+    "lint:fix": "npm run lint -- --fix",
+    "posttest": "c8 report --reporter=html",
+    "test": "npm run build && npm run lint && npm run test:run",
+    "test:run": "c8 node bin/test.js"
+  },
+  "types": "dist"
+}
