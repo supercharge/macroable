@@ -18,6 +18,9 @@
     "expect": "~28.1.0",
     "typescript": "~4.7.2"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "files": [
     "dist/index.js"
   ],
