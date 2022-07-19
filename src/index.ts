@@ -5,6 +5,12 @@
  */
 type MacroFn = (...args: any[]) => any
 
+export interface MacroableCtor {
+  macro<T extends typeof Macroable> (this: T, name: string, callback: MacroFn): T
+  flushMacros<T extends typeof Macroable> (this: T): T
+  hasMacro (name: string): boolean
+}
+
 export class Macroable {
   /**
    * The registered macros.
