@@ -8,6 +8,10 @@ class Parent extends Macroable {
   firstname () {
     return 'super'
   }
+
+  static test () {
+    return 'test'
+  }
 }
 
 class Child extends Macroable {}
@@ -83,5 +87,17 @@ test.group('Macroable', () => {
 
     expect(Parent.hasMacro('childMacro')).toBe(false)
     expect(Parent.hasMacro('parentMacro')).toBe(true)
+  })
+
+  test('chainable methods', () => {
+    Child
+      .macro('firstMacro', () => {})
+      .macro('secondMacro', () => {})
+      .flushMacros()
+      .macro('thirdMacro', () => {})
+
+    expect(Child.hasMacro('firstMacro')).toBe(false)
+    expect(Child.hasMacro('secondMacro')).toBe(false)
+    expect(Child.hasMacro('thirdMacro')).toBe(true)
   })
 })
