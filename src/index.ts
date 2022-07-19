@@ -7,11 +7,6 @@ type MacroFn = (...args: any[]) => any
 
 export class Macroable {
   /**
-   * Index signature.
-   */
-  [key: string]: any
-
-  /**
    * The registered macros.
    */
   protected static macros: Map<string, MacroFn> = new Map()
@@ -28,13 +23,14 @@ export class Macroable {
    * })
    * ```
    */
-  public static macro<T extends typeof Macroable> (name: string, callback: MacroFn): T {
+  public static macro<T extends typeof Macroable> (this: T, name: string, callback: MacroFn): T {
     this.validateMacro(name, callback)
 
+    // @ts-expect-error
     this.prototype[name] = callback
     this.macros.set(name, callback)
 
-    return this as T
+    return this
   }
 
   /**
@@ -78,13 +74,13 @@ export class Macroable {
    *
    * @param name
    */
-  public static flushMacros<T extends typeof Macroable> (): T {
+  public static flushMacros<T extends typeof Macroable> (this: T): T {
     for (const key of this.macros.keys()) {
       Reflect.deleteProperty(this.prototype, key)
     }
 
     this.macros = new Map()
 
-    return this as T
+    return this
   }
 }
