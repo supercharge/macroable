@@ -12,7 +12,7 @@ class Parent extends Macroable {
 
 class Child extends Macroable {}
 
-test.group('Macroable', (group) => {
+test.group('Macroable', () => {
   test('macro', () => {
     function macroFn () {}
     Parent.macro('macro', macroFn)
