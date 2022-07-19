@@ -6,8 +6,8 @@
 type MacroFn = (...args: any[]) => any
 
 export interface MacroableCtor {
-  macro<T extends typeof Macroable> (this: T, name: string, callback: MacroFn): T
-  flushMacros<T extends typeof Macroable> (this: T): T
+  macro<T extends MacroableCtor> (this: T, name: string, callback: MacroFn): T
+  flushMacros<T extends MacroableCtor> (this: T): T
   hasMacro (name: string): boolean
 }
 
@@ -29,12 +29,13 @@ export class Macroable {
    * })
    * ```
    */
-  public static macro<T extends typeof Macroable> (this: T, name: string, callback: MacroFn): T {
-    this.validateMacro(name, callback)
+  public static macro<T extends MacroableCtor> (this: T, name: string, callback: MacroFn): T {
+    const self = this as unknown as typeof Macroable
+    self.validateMacro(name, callback)
 
     // @ts-expect-error
-    this.prototype[name] = callback
-    this.macros.set(name, callback)
+    self.prototype[name] = callback
+    self.macros.set(name, callback)
 
     return this
   }
@@ -80,12 +81,15 @@ export class Macroable {
    *
    * @param name
    */
-  public static flushMacros<T extends typeof Macroable> (this: T): T {
-    for (const key of this.macros.keys()) {
+  public static flushMacros<T extends MacroableCtor> (this: T): T {
+    const self = this as unknown as typeof Macroable
+
+    for (const key of self.macros.keys()) {
+      // @ts-expect-error
       Reflect.deleteProperty(this.prototype, key)
     }
 
-    this.macros = new Map()
+    self.macros = new Map()
 
     return this
   }
