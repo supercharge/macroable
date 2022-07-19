@@ -1,6 +1,12 @@
 # Changelog
 
 
+## 2.0.1 - 2022-07-19
+
+### Updated
+- type refinements resolving `this`
+
+
 ## 2.0.0 - 2022-07-19
 
 ### Added
